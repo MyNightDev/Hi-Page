@@ -1,0 +1,44 @@
+<body>
+    
+    <div id="app"></div>
+
+    <script>
+        fetch("https://covid19.th-stat.com/th/share/dashboard")
+            .then(function (response) {
+
+                return response.text();
+            })
+            .then(function (html) {
+
+                var parser = new DOMParser();
+
+                var doc = parser.parseFromString(html, "text/html");
+
+                // ติดเชื้อสะสม
+                var confirmed = doc.querySelectorAll(".card-default > p");
+                var confirmed_count = doc.querySelectorAll(".card-default > h1");
+                var json1 = {
+                    confirmed: {
+                        title: confirmed[0].textContent,
+                        count: confirmed_count[0].textContent
+                    },
+                    recovered: {
+                        title: confirmed[1].textContent,
+                        count: confirmed_count[1].textContent
+                    },
+                    hospitalized: {
+                        title: confirmed[2].textContent,
+                        count: confirmed_count[2].textContent
+                    },
+                    deaths: {
+                        title: confirmed[3].textContent,
+                        count: confirmed_count[3].textContent
+                    }
+                };
+                document.querySelector('#app').innerHTML = JSON.stringify(json1)
+            })
+            .catch(function (err) {
+                console.log("Failed to fetch page: ", err);
+            });
+    </script>
+</body>
