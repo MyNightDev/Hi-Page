@@ -1,0 +1,10 @@
+fetch("https://disease.sh/v3/covid-19/countries/th")
+  .then((response) => response.json())
+  .then((data) => {
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    var time = data.updated;
+    var date1 = new Date(time);
+    console.log(date1.toLocaleDateString(undefined, options));
+    console.log(data);
+
+  });
